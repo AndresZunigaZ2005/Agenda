@@ -116,13 +116,88 @@ public class Contacto {
 		return Objects.equals(nombre, other.nombre) && Objects.equals(telefono, other.telefono);
 	}
 	
+	/**
+	 * verificar si tiene las 5 vocales
+	 * @return
+	 */
 	public boolean encontarContactoCincoVocales() {
-		
+		int A,E,I,O,U;
+		A=0;
+		E=0;
+		I=0;
+		O=0;
+		U=0;
+		for (int i = 0; i < nombre.length(); i++) {
+			if(isVocalA(nombre.charAt(i))) {
+				A++;
+				continue;
+			}
+			if(isVocalE(nombre.charAt(i))) {
+				I++;
+				continue;
+			}
+			if(isVocalI(nombre.charAt(i))) {
+				E++;
+				continue;
+			}
+			if(isVocalO(nombre.charAt(i))) {
+				O++;
+				continue;
+			}
+			if(isVocalU(nombre.charAt(i))) {
+				U++;
+				continue;
+			}
+		}
+		if(A>0 && E>0 && I>0 && O>0 && U>0) {
+			return true;
+		}
+		return false;
 	}
 	
-	public boolean isVocal(char charName) {
-		if(charName == 'A' || charName == 'E' ||charName == 'I' ||charName == 'O' ||charName == 'U' ||
-				charName == 'a' || charName == 'e' || charName == 'i' || charName == 'o' || charName == 'u') {
+	public boolean isVocalA(char charName) {
+		if(charName == 'A' || charName == 'a'){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isVocalE(char charName) {
+		if(charName == 'E' || charName == 'e'){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isVocalI(char charName) {
+		if(charName == 'I' || charName == 'i'){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isVocalO(char charName) {
+		if(charName == 'O' || charName == 'o'){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isVocalU(char charName) {
+		if(charName == 'U' || charName == 'u'){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * verificar direccion
+	 * @param nuevaDireccion
+	 * @return
+	 */
+	
+	public boolean verificarDireccion(String nuevaDireccion) {
+		if(direccion.equals(nuevaDireccion)) {
 			return true;
 		}
 		return false;

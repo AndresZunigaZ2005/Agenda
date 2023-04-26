@@ -228,4 +228,26 @@ public class Agenda {
 		asList.remove(grupoEliminado);
 		listaGrupos = (Grupo[]) asList.toArray();
 	}
+	
+	/**
+	 * contar si tiene las 5 vocales
+	 * @return
+	 */
+	
+	public Contacto[] eliminarContactosCincoVocales() {
+		List<Contacto> asList =Arrays.asList(listaContactos);
+		Stream<Contacto> contactos = asList.stream().filter(x -> x.encontarContactoCincoVocales());
+		return listaContactos = (Contacto[]) contactos.toArray();
+	}
+	
+	/**
+	 * retornar lista de grupos con requerimentos de direccion y categoria de grupos
+	 */
+	
+	public List<Grupo> devolverContactosDireccionCategoria(){
+		List<Grupo> asList = Arrays.asList(listaGrupos);
+		Stream<Grupo> grupos = asList.stream().filter(x -> x.verificarCategoria(CategoriaGrupos.OFICINA)
+				&& x.verificarDireccion("calle 2 numero 18-00"));
+		return asList=grupos.toList();
+	}
 }

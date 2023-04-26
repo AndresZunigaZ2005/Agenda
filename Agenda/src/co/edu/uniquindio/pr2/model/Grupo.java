@@ -103,4 +103,18 @@ public class Grupo implements Serializable{
 		}
 		listaContactos[verificarPosicionDisponible()] = nuevoContacto;
 	}
+	
+	public boolean verificarCategoria(CategoriaGrupos nuevoCategoria) {
+		if(categoria.equals(nuevoCategoria)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean verificarDireccion(String nuevaDireccion) {
+		for (Contacto contacto : listaContactos) {
+			contacto.verificarDireccion(nuevaDireccion);
+		}
+		return false;
+	}
 }
