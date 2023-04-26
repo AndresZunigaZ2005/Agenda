@@ -8,17 +8,19 @@ public class Reunion {
 	private String fecha;
 	private String hora;
 	private Contacto listaContactos[];
+	private Nota nota;
 	
 	public Reunion() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Reunion(String descripcion, String fecha, String hora, int numListaContactos) {
+	public Reunion(String descripcion, String fecha, String hora, int numListaContactos, Nota nota) {
 		super();
 		this.descripcion = descripcion;
 		this.fecha = fecha;
 		this.hora = hora;
 		this.listaContactos = new Contacto[numListaContactos];
+		this.nota = nota;
 	}
 
 	public String getDescripcion() {
@@ -53,10 +55,18 @@ public class Reunion {
 		this.listaContactos = listaContactos;
 	}
 
+	public Nota getNota() {
+		return nota;
+	}
+
+	public void setNota(Nota nota) {
+		this.nota = nota;
+	}
+
 	@Override
 	public String toString() {
 		return "Reunion [descripcion=" + descripcion + ", fecha=" + fecha + ", hora=" + hora + ", listaContactos="
-				+ Arrays.toString(listaContactos) + "]";
+				+ Arrays.toString(listaContactos) + ", nota=" + nota + "]";
 	}
-	
+
 }

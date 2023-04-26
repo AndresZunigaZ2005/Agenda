@@ -116,5 +116,15 @@ public class Contacto {
 		return Objects.equals(nombre, other.nombre) && Objects.equals(telefono, other.telefono);
 	}
 	
+	public boolean encontarContactoCincoVocales() {
+		
+	}
 	
+	public boolean isVocal(char charName) {
+		if(charName == 'A' || charName == 'E' ||charName == 'I' ||charName == 'O' ||charName == 'U' ||
+				charName == 'a' || charName == 'e' || charName == 'i' || charName == 'o' || charName == 'u') {
+			return true;
+		}
+		return false;
+	}
 }
