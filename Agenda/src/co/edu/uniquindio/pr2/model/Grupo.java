@@ -27,7 +27,12 @@ public class Grupo implements Serializable{
 	public Grupo() {
 		
 	}
-
+	public Grupo(String nombre, Contacto[] listaContactos, CategoriaGrupos categoria) {
+		super();
+		this.nombre = nombre;
+		this.listaContactos = new Contacto[10];
+		this.categoria = categoria;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -116,5 +121,20 @@ public class Grupo implements Serializable{
 			contacto.verificarDireccion(nuevaDireccion);
 		}
 		return false;
+	}
+	//------------------------------------------------------------------------------
+	/**
+	 * PARCIAL II
+	 */
+	/**
+	 * Punto 4
+	 * el metodo encontrarContactosCondicionado, retorna un arreglo con los contactos que cumplen la condicion del perfijo, mediante el uso de la clase stream 
+	 * y el metodo filter, donde se recorre cada contacto del grupo, utilizando el numero de telefono de cada contacto, se obtine una subcadena con el metodo .subString
+	 * la cual va desde la posicion 0 hasta el tamaño del prefijo, con el fin de que ambos tengan el mismo tamaño y se puedan comparar con el metodo .equals
+	 * @param prefijo
+	 * @return
+	 */
+	public Contacto[]encontrarContactosCondicionado(String prefijo){
+		return Arrays.stream(this.listaContactos).filter(c->c.getTelefono().substring(0, prefijo.length()).equals(prefijo)).toArray(Contacto[]::new );
 	}
 }

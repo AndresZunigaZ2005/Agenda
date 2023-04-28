@@ -30,6 +30,15 @@ public class Agenda {
 	public Agenda() {
 		
 	}
+	
+	//Para probar en el test
+	public Agenda(String nombre, Contacto[] listaContactos, Grupo[] listaGrupos, Reunion[] listaReuniones) {
+		super();
+		this.nombre = nombre;
+		this.listaContactos = listaContactos;
+		this.listaGrupos = listaGrupos;
+		this.listaReuniones = listaReuniones;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -161,11 +170,12 @@ public class Agenda {
 	
 	private boolean existeContacto(Contacto newContacto) {
 		List <Contacto> asList = Arrays.asList(listaContactos);
-		return asList.stream().anyMatch(x -> x.equals(newContacto));
-	}
-	
-	public void eliminar(Contacto contacto) {
-		
+		for (Contacto contacto : asList) {
+			if(contacto.equals(newContacto)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public Contacto[] obtenerContactoR() {
@@ -200,9 +210,9 @@ public class Agenda {
 	/*
 	 * Metodos CRUD Grupo
 	 */
-	private void crearGrupo(Grupo nuevoGrupo) throws GrupoException{
+	public void crearGrupo(Grupo nuevoGrupo) throws GrupoException{
 		List <Grupo> asList = Arrays.asList(listaGrupos);
-		if(asList.stream().anyMatch(x -> x.equals(nuevoGrupo))) {
+		if(asList.stream().anyMatch(g -> g.equals(nuevoGrupo))) {
 			throw new GrupoException("El grupo ya existe");
 		}
 		int posiblePosicion = buscarEspacioLibreGrupo();
@@ -210,6 +220,18 @@ public class Agenda {
 			throw new GrupoException("No hay espacio en la agenda");
 		}
 		listaGrupos[posiblePosicion] = nuevoGrupo;
+	}
+	
+	private boolean existeGrupo(Grupo buscarGrupo) {
+		List<Grupo> asList = Arrays.asList(listaGrupos);
+		return asList.stream().anyMatch(x -> x.equals(buscarGrupo));
+	}
+	
+	private Grupo buscarGrupo(Grupo buscarGrupo) throws GrupoException{
+		if(!existeGrupo(buscarGrupo)) {
+			throw new GrupoException("El grupo no existe");
+		}
+		return buscarGrupo;
 	}
 	
 	private int buscarEspacioLibreGrupo() {
@@ -262,8 +284,45 @@ public class Agenda {
 		return (String[]) ContTel.toArray();
 	}
 	
+	//-------------------------------------------------------------------------------
 	/**
-	 * Matriz de las fechas de las reuniones
+	 * PARCIAL II
+	 */
+	
+	/**
+	 * Pregunta 1.B.
+	 * en el metodo encontrarPalabrasCondicionadas, retorna una lista de palabras que cumplen la condicon de iniciar
+	 * por un caracter en especifico, son las palabaras encontradas en todas las reuniones de todas las notas de cada reunion,
+	 * para el cual se invoca el metodo encontrarPalabrasCondicionada de la clase reunion
+	 * @param caracterInicial
+	 * @return
+	 */
+	public List<String>encontrarPalabrasCondicionada(char caracterInicial){
+		List<String>listaPalabras = new ArrayList<>();
+		for (Reunion reunion : listaReuniones) {
+			listaPalabras.add(reunion.encontrarPalabrasCondicionada(caracterInicial).toString());
+		}
+		return listaPalabras;
+
+	}
+	
+	/**
+	 * Pregunta 2 Crea una lista de grupos que pertenecen a un grupo que se mandó por 
+	 * parametro
+	 * @param nuevoGrupo
+	 * @return
+	 * @throws GrupoException
+	 */
+	public Contacto[] filtrarContactos(Grupo nuevoGrupo) throws GrupoException{
+		if(!existeGrupo(nuevoGrupo)) {
+			throw new GrupoException("No se ha encontrado el grupo");
+		}
+		List <Contacto> asList = Arrays.asList(buscarGrupo(nuevoGrupo).getListaContactos());
+		return (Contacto[]) asList.toArray();
+	}
+	
+	/**
+	 * Matriz de las fechas de las reuniones Pregunta 3
 	 * @throws ParseException 
 	 */
 	public String[][] llenarMatrizFecha() throws ParseException{
@@ -277,7 +336,7 @@ public class Agenda {
 			} else 	if(listaReuniones[i].verificarFecha("31-12-2022", "01-12-2022")){
 				lineaUno.add(listaReuniones[i]);				
 				continue;
-			}else if(listaReuniones[i].verificarFecha("30-11-2022", "01-11-2022")){
+			}else if(listaReuniones[i].verificarFecha("30-12-2022", "01-01-2022")){
 				lineaUno.add(listaReuniones[i]);				
 				continue;
 			}
@@ -285,5 +344,36 @@ public class Agenda {
 		String [][] matriz = {(String[]) lineaUno.toArray(), 
 				(String[]) lineaDos.toArray(), (String[]) lineaTres.toArray()};
 		return matriz;
+	}
+	
+	/**
+	 * punto 4
+	 * el metodo encontrarGrupos, recorre la lista de grupos, y llena un arrayList con grupos, cada grupo se crea a partir
+	 * de los contactos que cumplen la condicion del prefijo de cada Grupo existenete en la listaGrupos, mediante la invocación
+	 * del metodo crearGrupoCondicionado y la iteracion del foreach sobre la listaGrupos
+	 * @param prefijo
+	 * @return
+	 */
+
+	public List<Grupo>encontrarGrupos(String prefijo){
+		List<Grupo>listaGruposCondicionado = new ArrayList<>();
+		for (Grupo grupo : listaGrupos) {
+			listaGruposCondicionado.add(crearGrupoCondicionado(prefijo, grupo));
+		}
+		return listaGruposCondicionado;
+	}
+
+	/**
+	 * Punto 4
+	 * el metodo crearGrupoCondicionado retorna un Grupo, que el mismo crea, donde solo existen los contactos
+	 * que cumplen con la condicion del perfijo en su numero de telefono, invocando al metodo encontrarContactosCondicionado
+	 * @param prefijo
+	 * @param grupo1
+	 * @return
+	 */
+
+	public Grupo crearGrupoCondicionado(String prefijo, Grupo grupo1){
+		Grupo grupo= new Grupo(null, grupo1.encontrarContactosCondicionado(prefijo), null);
+		return grupo;
 	}
 }

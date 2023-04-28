@@ -2,8 +2,10 @@ package co.edu.uniquindio.pr2.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class Reunion {
 
@@ -11,19 +13,19 @@ public class Reunion {
 	private String fecha;
 	private String hora;
 	private Contacto listaContactos[];
-	private Nota nota;
+	private Nota listaNotas[];
 	
 	public Reunion() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Reunion(String descripcion, String fecha, String hora, int numListaContactos, Nota nota) {
+	public Reunion(String descripcion, String fecha, String hora, int numListaContactos, int nota) {
 		super();
 		this.descripcion = descripcion;
 		this.fecha = fecha;
 		this.hora = hora;
 		this.listaContactos = new Contacto[numListaContactos];
-		this.nota = nota;
+		this.listaNotas = new Nota[nota];
 	}
 
 	public String getDescripcion() {
@@ -57,23 +59,44 @@ public class Reunion {
 	public void setListaContactos(Contacto[] listaContactos) {
 		this.listaContactos = listaContactos;
 	}
-
-	public Nota getNota() {
-		return nota;
+		
+	public Nota[] getListaNotas() {
+		return listaNotas;
 	}
 
-	public void setNota(Nota nota) {
-		this.nota = nota;
+	public void setListaNotas(Nota[] listaNotas) {
+		this.listaNotas = listaNotas;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Reunion [descripcion=" + descripcion + ", fecha=" + fecha + ", hora=" + hora + ", listaContactos="
-				+ Arrays.toString(listaContactos) + ", nota=" + nota + "]";
+				+ Arrays.toString(listaContactos) + ", listaNotas=" + Arrays.toString(listaNotas) + "]";
+	}
+	//-----------------------------------------------------------------------------
+	/**
+	 * PARCIAL II
+	 */
+
+	/**
+	 * punto 1.B. 
+	 * el metodo encontrarPalabrasCondicionada recorre la lista de notas de la reunion, buscando aquellas palabras que cumplen la 
+	 * condicion, gracias a la invocacion del metodo encontrarPalabrasCondicionada de la clase Nota, el metodo retorna un arrayList 
+	 * con las palabras
+	 * @param caracterInicial
+	 * @return
+	 */
+	
+	public List<String>encontrarPalabrasCondicionada(char caracterInicial){
+		List<String>listaPalabras = new ArrayList<>();
+		for ( Nota nota : listaNotas) {
+			listaPalabras.add(nota.encontrarPalabrasCondicionadas(caracterInicial).toString());
+		}
+		return listaPalabras;
 	}
 
 	/**
-	 * verificar si una fecha de una reunion esta en el intervalo necesario
+	 * verificar si una fecha de una reunion esta en el intervalo necesario PREGUNTA 3
 	 * @throws ParseException 
 	 */
 	public boolean verificarFecha(String limiteMayor, String limiteMenor) throws ParseException {
