@@ -202,4 +202,15 @@ public class Contacto {
 		}
 		return false;
 	}
+	
+	/**
+	 * Verificar telefono capicua
+	 */
+	public boolean isCapicua() {
+		String isCapicua = new StringBuilder(telefono.toLowerCase().replace(" ", "")).toString();
+		if(isCapicua.equals(telefono)) {
+			return true;
+		}
+		return false;
+	}
 }

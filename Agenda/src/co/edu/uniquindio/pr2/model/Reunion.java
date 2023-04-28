@@ -1,6 +1,9 @@
 package co.edu.uniquindio.pr2.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 public class Reunion {
 
@@ -69,4 +72,18 @@ public class Reunion {
 				+ Arrays.toString(listaContactos) + ", nota=" + nota + "]";
 	}
 
+	/**
+	 * verificar si una fecha de una reunion esta en el intervalo necesario
+	 * @throws ParseException 
+	 */
+	public boolean verificarFecha(String limiteMayor, String limiteMenor) throws ParseException {
+		SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+		Date fechaLimiteMayor = date.parse(limiteMayor);
+		Date fechaLimiteMenor = date.parse(limiteMenor);
+		Date fechaReunion = date.parse(getFecha());
+		if(fechaReunion.after(fechaLimiteMenor) && fechaReunion.before(fechaLimiteMayor)) {
+			return true;
+		}
+		return false;
+	}
 }

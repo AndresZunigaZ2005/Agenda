@@ -1,5 +1,7 @@
 package co.edu.uniquindio.pr2.model;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -249,5 +251,39 @@ public class Agenda {
 		Stream<Grupo> grupos = asList.stream().filter(x -> x.verificarCategoria(CategoriaGrupos.OFICINA)
 				&& x.verificarDireccion("calle 2 numero 18-00"));
 		return asList=grupos.toList();
+	}
+	
+	/**
+	 * Retornar lista telefonos capicuas
+	 */
+	public String[] hallarListaTelefonoCapicua() {
+		List <Contacto> asList = Arrays.asList(listaContactos);
+		Stream <Contacto> ContTel = asList.stream().filter(x -> x.isCapicua());
+		return (String[]) ContTel.toArray();
+	}
+	
+	/**
+	 * Matriz de las fechas de las reuniones
+	 * @throws ParseException 
+	 */
+	public String[][] llenarMatrizFecha() throws ParseException{
+		List <Reunion> lineaUno = new ArrayList<>();
+		List <Reunion> lineaDos = new ArrayList<>();
+		List <Reunion> lineaTres = new ArrayList<>();
+		for (int i = 0; i < listaReuniones.length; i++) {
+			if(listaReuniones[i].verificarFecha("30-11-2022", "01-11-2022")){
+				lineaUno.add(listaReuniones[i]);
+				continue;
+			} else 	if(listaReuniones[i].verificarFecha("31-12-2022", "01-12-2022")){
+				lineaUno.add(listaReuniones[i]);				
+				continue;
+			}else if(listaReuniones[i].verificarFecha("30-11-2022", "01-11-2022")){
+				lineaUno.add(listaReuniones[i]);				
+				continue;
+			}
+		}
+		String [][] matriz = {(String[]) lineaUno.toArray(), 
+				(String[]) lineaDos.toArray(), (String[]) lineaTres.toArray()};
+		return matriz;
 	}
 }
